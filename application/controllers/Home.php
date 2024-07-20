@@ -14,10 +14,10 @@ class Home extends MY_Controller {
                 ]
             )
             ->join('category')                  // Query untuk mencari suatu data produk beserta kategorinya
-            ->where('product.is_available >=', 1)  // Pilih yang stok tersedia
+            ->where('product.is_available >', 0)  // Pilih yang stok tersedia
             ->paginate($page)
             ->get();
-        $data['total_rows'] = $this->home->where('product.is_available', 1)->count();
+        $data['total_rows'] = $this->home->where('product.is_available >', 0)->count();
         $data['pagination'] = $this->home->makePagination(base_url('home'), 2, $data['total_rows']);
         $data['page'] = 'pages/home/index';     // Mengarahkan halaman
 

@@ -39,8 +39,17 @@ class Cart extends MY_Controller
      */
     public function add()
     {
+        $input              = (object) $this->input->post(null, true);
+        $this->cart->table  = 'product';
+        $product            = $this->cart->where('id', $input->id_product)->first();
+
+        $stok = $product->is_available;
+
         if (!$_POST || $this->input->post('qty') < 1) {
             $this->session->set_flashdata('error', 'Kuantitas tidak boleh kosong');
+            redirect(base_url());
+        } elseif ($this->input->post('qty') > $stok) {
+            $this->session->set_flashdata('error', 'Stok tidak cukup !');
             redirect(base_url());
         } else {
             $input              = (object) $this->input->post(null, true);
@@ -93,8 +102,17 @@ class Cart extends MY_Controller
      */
     public function update($id)
     {
+        $data['content']    = $this->cart->where('id', $id)->first();   // Mengambil data dari cart
+        $this->cart->table  = 'product';
+        $product            = $this->cart->where('id', $data['content']->id_product)->first();
+
+        $stok = $product->is_available;
+
         if (!$_POST || $this->input->post('qty') < 1) {
             $this->session->set_flashdata('error', 'Kuantitas tidak boleh kosong');
+            redirect(base_url('cart/index'));
+        } elseif($this->input->post('qty') > $stok) {
+            $this->session->set_flashdata('error', 'Stok Tidak Cukup !');
             redirect(base_url('cart/index'));
         }
 

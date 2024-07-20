@@ -93,6 +93,23 @@ class Checkout extends MY_Controller
                 $this->db->insert('order_detail', $row);    // Insert ke tabel order_detail
             }
 
+            //pengurangan stok pada tabel produk
+            foreach ($cart as $row) {
+                $idProduct  = $row['id_product'];
+                $Qty        = $row['qty'];
+                $product    = $this->db->where('id', $idProduct) 
+                ->get('product')
+                ->result_array();
+
+                foreach ($product as $pro) {
+                $data2 = [
+                    'is_available'   => $pro['is_available'] - $Qty,
+                ];
+                $this->db->where('id', $idProduct);
+                $this->db->update('product', $data2);
+                }
+            }
+
             $this->db->delete('cart', ['id_user' => $this->id]);    // Hapus cart user sekarang
 
             $this->session->set_flashdata('success', 'Data berhasil disimpan');

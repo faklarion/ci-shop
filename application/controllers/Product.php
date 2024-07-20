@@ -28,6 +28,11 @@ class Product extends MY_Controller
             ->join('category')     // Query untuk mencari suatu data produk beserta kategorinya
             ->paginate($page)
             ->get();
+        $data['stok']    = $this->db->select('*')
+            ->from('stok_product')
+            ->join('product', 'product.id = stok_product.id_product')
+            ->get()
+            ->result();
         $data['total_rows'] = $this->product->count();
         $data['pagination'] = $this->product->makePagination(base_url('product'), 2, $data['total_rows']);
         $data['page']       = 'pages/product/index';
@@ -154,6 +159,56 @@ class Product extends MY_Controller
         }
 
         redirect(base_url('product'));
+    }
+
+    public function add_stok($id)
+    {
+        $data['content'] = $this->product->where('id', $id)->first();
+
+        if (!$data['content']) {
+            $this->session->set_flashdata('warning', 'Maaf data tidak ditemukan');
+            redirect(base_url('product'));
+        }
+
+
+        if (!$this->product->validate()) {
+            $data['title']          = 'Tambah Stok Produk';
+            $data['form_action']    = base_url("product/add_stok_action");
+            $data['page']           = 'pages/product/form_stok';
+            $data['content'] = $this->product->where('id', $id)->first();
+
+            $this->view($data);
+            return;
+        }
+    }
+
+    public function add_stok_action()
+    {
+
+            $product = $this->product->where('id', $this->input->post('id'))->first();
+
+            $stok = $product->is_available;
+
+            $data = array(
+               'is_available' => $stok + $this->input->post('is_available'),
+            );
+
+            $date = new DateTime('now', new DateTimeZone('Asia/Makassar'));
+            // Format the date as needed
+            $current_date = $date->format('Y-m-d H:i:s');
+            
+            $dataStok = array(
+                'stok' => $this->input->post('is_available'),
+                'tanggal'=> $current_date,
+                'supplier'=> $this->input->post('supplier'),
+                'id_product'=> $this->input->post('id'),
+             );
+            
+            $this->db->insert('stok_product', $dataStok);
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('product', $data);
+            $this->session->set_flashdata('success', 'Stok berhasil ditambahkan');
+            redirect(site_url('product'));
     }
 
     public function delete($id)

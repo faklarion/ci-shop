@@ -17,11 +17,11 @@ class Shop extends MY_Controller
                 ]
             )
             ->join('category')                  // Query untuk mencari suatu data produk beserta kategorinya
-            ->where('product.is_available', 1)  // Pilih yang stok tersedia
+            ->where('product.is_available >', 0)  // Pilih yang stok tersedia
             ->orderBy('product.price', $sort)   // Sortir berdasarkan harga
             ->paginate($page)
             ->get();
-        $data['total_rows'] = $this->shop->where('product.is_available', 1)->count();
+        $data['total_rows'] = $this->shop->where('product.is_available >', 0)->count();
         $data['pagination'] = $this->shop->makePagination(
             base_url("shop/sortby/$sort"), 4, $data['total_rows']
         );
@@ -45,11 +45,11 @@ class Shop extends MY_Controller
                 ]
             )
             ->join('category')                  // Query untuk mencari suatu data produk beserta kategorinya
-            ->where('product.is_available', 1)  // Pilih yang stok tersedia
+            ->where('product.is_available >', 0)  // Pilih yang stok tersedia
             ->where('category.slug', $category)
             ->paginate($page)
             ->get();
-        $data['total_rows'] = $this->shop->where('product.is_available', 1)
+        $data['total_rows'] = $this->shop->where('product.is_available >', 0)
             ->where('category.slug', $category)
             ->join('category')
             ->count();

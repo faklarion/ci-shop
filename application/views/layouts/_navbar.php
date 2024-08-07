@@ -22,6 +22,16 @@
 						<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
 					</div>
 				</li>
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Laporan</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown-1">
+						<a data-toggle="modal" data-target="#laporanBarang" class="dropdown-item">Laporan Barang</a>
+						<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
+						<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
+						<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
+					</div>
+				</li>
 				<?php endif ?>
 
 			</ul>
@@ -51,3 +61,35 @@
 		</div>
 	</div>
 </nav>
+
+<!-- Modal Lap. Barang -->
+<div id="laporanBarang" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- konten modal-->
+			<div class="modal-content">
+				<!-- heading modal -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bagian heading modal</h4>
+				</div>
+				<!-- body modal -->
+				<div class="modal-body">
+				<?php echo form_open('form/submit'); ?>
+
+					<label for="field1">Field 1:</label>
+					<input type="text" name="field1" /><br />
+
+					<label for="field2">Field 2:</label>
+					<input type="text" name="field2" /><br />
+
+				<input type="submit" value="Submit" />
+
+				<?php echo form_close(); ?>
+				</div>
+				<!-- footer modal -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Tutup Modal</button>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -10,43 +10,45 @@
 				<li class="nav-item active">
 					<a class="nav-link" href="<?= base_url() ?>">Home <span class="sr-only">(current)</span></a>
 				</li>
-				
-				<?php if($this->session->userdata("role") === 'admin') : ?>
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">Manage</a>
-					<div class="dropdown-menu" aria-labelledby="dropdown-1">
-						<a href="<?= base_url('category') ?>" class="dropdown-item">Kategori</a>
-						<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
-						<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
-						<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">Laporan</a>
-					<div class="dropdown-menu" aria-labelledby="dropdown-1">
-						<a data-toggle="modal" data-target="#laporanBarang" class="dropdown-item">Laporan Barang</a>
-						<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
-						<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
-						<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
-					</div>
-				</li>
+
+				<?php if ($this->session->userdata("role") === 'admin'): ?>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Manage</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown-1">
+							<a href="<?= base_url('category') ?>" class="dropdown-item">Kategori</a>
+							<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
+							<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
+							<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Laporan</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown-1">
+							<a data-toggle="modal" data-target="#laporanBarang" class="dropdown-item">Laporan Barang</a>
+							<a data-toggle="modal" data-target="#laporanStok" class="dropdown-item">Laporan Penambahan Stok
+								Barang</a>
+							<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
+							<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
+						</div>
+					</li>
 				<?php endif ?>
 
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a href="<?= base_url('cart') ?>" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart<?= '('.getCart().')' ?></a>
+					<a href="<?= base_url('cart') ?>" class="nav-link"><i class="fas fa-shopping-cart"></i>
+						Cart<?= '(' . getCart() . ')' ?></a>
 				</li>
-				<?php if (!$this->session->userdata('is_login')) : ?>
+				<?php if (!$this->session->userdata('is_login')): ?>
 					<li class="nav-item">
 						<a href="<?= base_url('login') ?>" class="nav-link">Login</a>
 					</li>
 					<li class="nav-item">
 						<a href="<?= base_url('register') ?>" class="nav-link">Register</a>
 					</li>
-				<?php else : ?>
+				<?php else: ?>
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" id="dropdown-2" , data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false"><?= $this->session->userdata("name") ?></a>
@@ -64,32 +66,106 @@
 
 <!-- Modal Lap. Barang -->
 <div id="laporanBarang" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- konten modal-->
-			<div class="modal-content">
-				<!-- heading modal -->
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Bagian heading modal</h4>
-				</div>
-				<!-- body modal -->
-				<div class="modal-body">
-				<?php echo form_open('form/submit'); ?>
+	<div class="modal-dialog">
+		<!-- konten modal-->
+		<div class="modal-content">
+			<!-- heading modal -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Laporan Barang</h4>
+			</div>
+			<!-- body modal -->
+			<div class="modal-body">
+				<form action="<?php echo base_url('product/laporan') ?>" method="get">
 
-					<label for="field1">Field 1:</label>
-					<input type="text" name="field1" /><br />
+					<label for="field1">Berdasarkan Kategori:</label>
+					<select name="category" id="category" class="form-control mb-3">
+						<?php
+						$category = $this->db->select('*')
+							->from('category')
+							->get()
+							->result();
+						foreach ($category as $row) {
+							?>
+							<option value="<?php echo $row->id ?>"><?php echo $row->title ?></option>
+						<?php } ?>
+					</select>
 
-					<label for="field2">Field 2:</label>
-					<input type="text" name="field2" /><br />
+					<input type="submit" value="Cetak" class="btn btn-sm btn-info" />
+					<button type="submit" name="cetakSemua" class="btn btn-sm btn-primary">Cetak Semua</button>
 
-				<input type="submit" value="Submit" />
-
-				<?php echo form_close(); ?>
-				</div>
-				<!-- footer modal -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Tutup Modal</button>
-				</div>
+				</form>
+			</div>
+			<!-- footer modal -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
 			</div>
 		</div>
 	</div>
+</div>
+<!-- END MODAL -->
+
+<!-- Modal Lap. Stok -->
+<div id="laporanStok" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- konten modal-->
+		<div class="modal-content">
+			<!-- heading modal -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Laporan Penambahan Stok</h4>
+			</div>
+			<!-- body modal -->
+			<div class="modal-body">
+				<form action="<?php echo base_url('product/laporanStok') ?>" method="get">
+
+					<div class="form-group">
+						<label for="bulan">Pilih Bulan:</label>
+						<select name="bulan" id="bulan" class="form-control">
+							<?php
+							$bulan = array(
+								1 => 'Januari',
+								'Februari',
+								'Maret',
+								'April',
+								'Mei',
+								'Juni',
+								'Juli',
+								'Agustus',
+								'September',
+								'Oktober',
+								'November',
+								'Desember'
+							);
+							foreach ($bulan as $num => $name) {
+								echo "<option value=\"$num\">$name</option>";
+							}
+							?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="tahun">Pilih Tahun:</label>
+						<select name="tahun" id="tahun" class="form-control">
+							<?php
+							$start_year = 2000; // Tahun awal
+							$end_year = date('Y'); // Tahun akhir (tahun sekarang)
+							for ($i = $end_year; $i >= $start_year; $i--) {
+								echo "<option value=\"$i\">$i</option>";
+							}
+							?>
+						</select>
+					</div>
+
+					<input type="submit" value="Cetak" class="btn btn-sm btn-info" />
+					<!-- <button type="submit" name="cetakSemua" class="btn btn-sm btn-primary">Cetak Semua</button> -->
+
+				</form>
+			</div>
+			<!-- footer modal -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END MODAL -->

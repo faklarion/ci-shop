@@ -81,6 +81,28 @@ class Product_model extends MY_Model
             unlink("./images/product/$fileName");
         }
     }
+
+    public function getByCategory($categoryId) {
+        $this->db->select("*, product.title as titleProduct,category.title as titleCategory");
+        $this->db->join('category', 'category.id = product.id_category');
+        $this->db->where('id_category', $categoryId);
+        
+        return $this->db->get('product')->result();
+    }
+
+    public function get_all() {
+        $this->db->select("*, product.title as titleProduct,category.title as titleCategory");
+        $this->db->join('category', 'category.id = product.id_category');
+        return $this->db->get('product')->result();
+    }
+
+    public function get_riwayat_stok($bulan, $tahun) {
+        $this->db->select("*");
+        $this->db->join("product", 'product.id = stok_product.id_product');
+        $this->db->where('MONTH(tanggal)', $bulan);
+        $this->db->where('YEAR(tanggal)', $tahun);
+        return $this->db->get('stok_product')->result();
+    }
 }
 
 /* End of file Product_model.php */

@@ -70,3 +70,27 @@ function hashEncryptVerify($input, $hash)
         return false;
     }
 }
+
+function formatRupiah($number) {
+    return 'Rp ' . number_format($number, 0, ',', '.');
+}
+
+function tanggalIndonesia($date){
+    setlocale(LC_TIME, 'id_ID.UTF-8');
+    $bulan = array(
+        1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $split = explode('-', $date);
+    return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+}

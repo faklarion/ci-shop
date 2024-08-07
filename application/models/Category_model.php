@@ -32,6 +32,11 @@ class Category_model extends MY_Model
         
         return $validationRules;
     }
+
+    public function get_all() {
+        $this->db->select("*");
+        return $this->db->get('category')->result();
+    }
 }
 
 /* End of file Category_model.php */

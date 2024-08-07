@@ -7,6 +7,7 @@ class Shop extends MY_Controller
     /**
      * Sorting harga
      */
+
     public function sortby($sort, $page = null)
     {
         $data['title'] = 'Belanja';

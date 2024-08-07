@@ -14,6 +14,7 @@ class Product extends MY_Controller
             redirect(base_url('/'));
             return;
         }
+        $this->load->model('Product_model');
     }
 
     public function index($page = null)
@@ -252,6 +253,28 @@ class Product extends MY_Controller
         }
 
         return true;
+    }
+
+    public function laporan() {
+        $categoryId = $this->input->get('category');
+        $cetakSemua = $this->input->get('cetakSemua');
+
+        if(isset($cetakSemua)) {
+            $data['data_product'] = $this->Product_model->get_all();
+        } else {
+            $data['data_product'] = $this->Product_model->getByCategory($categoryId);
+        }
+
+        $this->load->view('pages/product/laporan', $data);
+    }
+
+    public function laporanStok() {
+        $bulan  = $this->input->get('bulan');
+        $tahun  = $this->input->get('tahun');
+
+        $data['data_stok'] = $this->Product_model->get_riwayat_stok($bulan, $tahun);
+
+        $this->load->view('pages/product/laporan_stok', $data);
     }
 }
 

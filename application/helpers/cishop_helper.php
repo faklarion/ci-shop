@@ -94,3 +94,28 @@ function tanggalIndonesia($date){
     $split = explode('-', $date);
     return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
 }
+
+function angkaKeNamaBulan($angka) {
+    // Daftar nama bulan dalam bahasa Indonesia
+    $bulan = array(
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    );
+
+    // Cek apakah angka valid dan ada dalam array
+    if (array_key_exists($angka, $bulan)) {
+        return $bulan[$angka];
+    } else {
+        return 'Bulan tidak valid'; // Atau bisa return null atau string kosong jika lebih diinginkan
+    }
+}

@@ -17,6 +17,8 @@ class Order extends MY_Controller
             redirect(base_url('/'));
             return;
         }
+
+        $this->load->model('Order_model');
     }
 
     public function index($page = null)
@@ -108,6 +110,36 @@ class Order extends MY_Controller
         }
 
         redirect(base_url("order/detail/$id"));
+    }
+
+    public function laporan() {
+        $bulan  = $this->input->get("bulan");
+        $tahun  = $this->input->get("tahun");
+        $status = $this->input->get("status");
+
+        $data['data_order'] = $this->Order_model->get_orders_history($bulan, $tahun, $status);
+
+        $this->load->view('pages/order/laporan', $data);
+    }
+
+    public function laporan_penghasilan() {
+        $tahun  = $this->input->get("tahun");
+
+        $data['tahun'] = $tahun;
+        $data['penghasilan'] = $this->Order_model->ambilPenghasilan($tahun);
+
+        $this->load->view('pages/order/laporan_penghasilan', $data);
+    }
+
+    public function laporan_penghasilan_barang() {
+        $tahun  = $this->input->get("tahun");
+        $bulan  = $this->input->get("bulan");
+
+        $data['bulan'] = $bulan;
+        $data['tahun'] = $tahun;
+        $data['penghasilan'] = $this->Order_model->get_barang_bulanan($bulan,$tahun);
+
+        $this->load->view('pages/order/laporan_penghasilan_barang', $data);
     }
 }
 

@@ -131,6 +131,15 @@ class Order extends MY_Controller
         $this->load->view('pages/order/laporan_penghasilan', $data);
     }
 
+    public function grafik_penghasilan() {
+        $tahun  = $this->input->get("tahun");
+
+        $data['tahun'] = $tahun;
+        $data['penghasilan'] = $this->Order_model->ambilPenghasilan($tahun);
+
+        $this->load->view('pages/order/grafik_penghasilan', $data);
+    }
+
     public function laporan_penghasilan_barang() {
         $tahun  = $this->input->get("tahun");
         $bulan  = $this->input->get("bulan");
@@ -140,6 +149,17 @@ class Order extends MY_Controller
         $data['penghasilan'] = $this->Order_model->get_barang_bulanan($bulan,$tahun);
 
         $this->load->view('pages/order/laporan_penghasilan_barang', $data);
+    }
+
+    public function grafik_penghasilan_barang() {
+        $tahun  = $this->input->get("tahun");
+        $bulan  = $this->input->get("bulan");
+
+        $data['bulan'] = $bulan;
+        $data['tahun'] = $tahun;
+        $data['penghasilan'] = $this->Order_model->get_barang_bulanan($bulan,$tahun);
+
+        $this->load->view('pages/order/grafik_penghasilan_barang', $data);
     }
 }
 

@@ -276,6 +276,20 @@ class Product extends MY_Controller
 
         $this->load->view('pages/product/laporan_stok', $data);
     }
+
+    
+    public function grafik_stok() {
+        $categoryId = $this->input->get('category');
+        $cetakSemua = $this->input->get('cetakSemua');
+
+        if(isset($cetakSemua)) {
+            $data['data_product'] = $this->Product_model->get_all();
+        } else {
+            $data['data_product'] = $this->Product_model->getByCategory($categoryId);
+        }
+
+        $this->load->view('pages/product/grafik_stok', $data);
+    }
 }
 
 /* End of file Product.php */

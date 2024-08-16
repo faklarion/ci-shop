@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -99,19 +99,21 @@ class CI_Profiler {
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->language('profiler');
-
+	
 		// default all sections to display
 		foreach ($this->_available_sections as $section)
 		{
 			if ( ! isset($config[$section]))
 			{
-				$this->_compile_{$section} = TRUE;
+				// Gunakan sintaks ini untuk mengakses properti secara dinamis
+				$this->{"_compile_{$section}"} = TRUE;
 			}
 		}
-
+	
 		$this->set_sections($config);
 		log_message('info', 'Profiler Class Initialized');
 	}
+	
 
 	// --------------------------------------------------------------------
 
@@ -135,10 +137,12 @@ class CI_Profiler {
 		{
 			if (in_array($method, $this->_available_sections))
 			{
-				$this->_compile_{$method} = ($enable !== FALSE);
+				// Gunakan sintaks ini untuk mengakses properti secara dinamis
+				$this->{"_compile_{$method}"} = ($enable !== FALSE);
 			}
 		}
 	}
+
 
 	// --------------------------------------------------------------------
 
@@ -484,19 +488,13 @@ class CI_Profiler {
 
 		foreach ($this->CI->config->config as $config => $val)
 		{
-			$pre       = '';
-			$pre_close = '';
-                        
 			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
-                                
-				$pre       = '<pre>' ;
- 				$pre_close = '</pre>';
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars($val, ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
+				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -522,19 +520,13 @@ class CI_Profiler {
 
 		foreach ($this->CI->session->userdata() as $key => $val)
 		{
-			$pre       = '';
-			$pre_close = '';
-                        
 			if (is_array($val) OR is_object($val))
 			{
 				$val = print_r($val, TRUE);
-                                
-				$pre       = '<pre>' ;
- 				$pre_close = '</pre>';
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars($val, ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
+				.$key.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.htmlspecialchars($val, ENT_QUOTES, config_item('charset'))."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
@@ -551,24 +543,26 @@ class CI_Profiler {
 	{
 		$output = '<div id="codeigniter_profiler" style="clear:both;background-color:#fff;padding:10px;">';
 		$fields_displayed = 0;
-
+	
 		foreach ($this->_available_sections as $section)
 		{
-			if ($this->_compile_{$section} !== FALSE)
+			// Gunakan sintaks ini untuk mengakses properti secara dinamis
+			if ($this->{"_compile_{$section}"} !== FALSE)
 			{
 				$func = '_compile_'.$section;
 				$output .= $this->{$func}();
 				$fields_displayed++;
 			}
 		}
-
+	
 		if ($fields_displayed === 0)
 		{
 			$output .= '<p style="border:1px solid #5a0099;padding:10px;margin:20px 0;background-color:#eee;">'
 				.$this->CI->lang->line('profiler_no_profiles').'</p>';
 		}
-
+	
 		return $output.'</div>';
 	}
+	
 
 }

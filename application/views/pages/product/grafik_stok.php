@@ -15,7 +15,7 @@
     </style>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">PT. Sinar Kencana Inti Perkasa</h2>
+        <h2 class="text-center mb-4">PT. Wahana Inti Selaras</h2>
         <h4 class="text-center mb-4">Laporan Produk</h4>
         
         <div class="d-flex justify-content-center">

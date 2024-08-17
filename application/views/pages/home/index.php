@@ -17,9 +17,9 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row justify-content-center">
 				<?php foreach ($content as $row) : ?>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<div class="card mb-3">
 							<img src="<?= $row->image ? base_url("images/product/$row->image") : base_url("images/product/default.png") ?>" alt="" class="card-img-top">
 							<div class="card-body">
@@ -44,6 +44,7 @@
 					</div>
 				<?php endforeach ?>
 			</div>
+
 
 			<nav aria-label="Page navigation example">
 				<?= $pagination ?>

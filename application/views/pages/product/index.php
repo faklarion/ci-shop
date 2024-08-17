@@ -111,7 +111,7 @@
                                             <td><?= $row->title?></td>
                                             <td><?= tgl_indo($row->tanggal) ?></td>
                                             <td><?= $row->stok?></td>
-                                            <td><?= $row->supplier?></td>
+                                            <td><?= $row->nama_supplier?></td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>

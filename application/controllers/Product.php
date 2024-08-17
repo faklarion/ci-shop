@@ -32,6 +32,7 @@ class Product extends MY_Controller
         $data['stok']    = $this->db->select('*')
             ->from('stok_product')
             ->join('product', 'product.id = stok_product.id_product')
+            ->join('supplier', 'supplier.id = stok_product.supplier')
             ->get()
             ->result();
         $data['total_rows'] = $this->product->count();
@@ -173,6 +174,10 @@ class Product extends MY_Controller
 
 
         if (!$this->product->validate()) {
+            $data['supplier']       =  $this->db->select('*')
+                                        ->from('supplier')
+                                        ->get()
+                                        ->result();
             $data['title']          = 'Tambah Stok Produk';
             $data['form_action']    = base_url("product/add_stok_action");
             $data['page']           = 'pages/product/form_stok';

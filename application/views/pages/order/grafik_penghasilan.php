@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">PT. Sinar Kencana Inti Perkasa</h2>
+        <h2 class="text-center mb-4">PT. Wahana Inti Selaras</h2>
         <h4 class="text-center">Grafik Penghasilan Bulanan</h4>
         <p class="text-center">Tahun <?php echo $tahun ?></p>
         

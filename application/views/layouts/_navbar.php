@@ -17,6 +17,7 @@
 							aria-haspopup="true" aria-expanded="false">Manage</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown-1">
 							<a href="<?= base_url('category') ?>" class="dropdown-item">Kategori</a>
+							<a href="<?= base_url('supplier') ?>" class="dropdown-item">Supplier</a>
 							<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
 							<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
 							<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>

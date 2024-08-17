@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 15, 2024 at 05:08 AM
+-- Generation Time: Aug 16, 2024 at 03:04 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -155,7 +155,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `id_category`, `slug`, `title`, `description`, `price`, `is_available`, `image`) VALUES
-(2, 3, 'knuckle-seal-re73675', 'Knuckle Seal RE73675', 'Knuckle Seal RE73675', 500000, 5, 'knuckle-seal-re73675-20240725124808.png'),
+(2, 3, 'knuckle-seal-re73675', 'Knuckle Seal RE73675', 'Knuckle Seal RE73675', 500000, 6, 'knuckle-seal-re73675-20240725124808.png'),
 (3, 3, 'roller-bearing-sj11011', 'Roller Bearing SJ11011', 'Roller Bearing SJ11011', 3000000, 9, 'roller-bearing-sj11011-20240725124946.png'),
 (4, 2, 'packing-r176683', 'Packing R176683', 'Packing R176683', 5000000, 1, 'packing-r176683-20240725125046.png');
 
@@ -178,7 +178,30 @@ CREATE TABLE `stok_product` (
 --
 
 INSERT INTO `stok_product` (`id`, `id_product`, `stok`, `tanggal`, `supplier`) VALUES
-(1, 2, 1, '2024-07-20', 'PT Anu');
+(1, 2, 1, '2024-07-20', '1'),
+(2, 2, 1, '2024-08-16', '2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int NOT NULL,
+  `nama_supplier` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat` text COLLATE utf8mb4_general_ci NOT NULL,
+  `no_hp` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `nama_supplier`, `alamat`, `no_hp`, `email`) VALUES
+(1, 'PT Anu', 'Jl. Mandastana', '082191949321', 'ptanu@gmail.com'),
+(2, 'PT Senada', 'Jl Suungai Andai', '082191949376', 'faisal.jynerso@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -252,6 +275,12 @@ ALTER TABLE `stok_product`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -301,7 +330,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `stok_product`
 --
 ALTER TABLE `stok_product`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`

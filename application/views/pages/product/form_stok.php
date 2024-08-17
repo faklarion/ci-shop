@@ -23,8 +23,13 @@
 
                             <tr>
                                 <td width='200'>Supplier</td>
-                                <td><input type="text" class="form-control" name="supplier" id="supplier"
-                                        placeholder="Nama Supploer" required /></td>
+                                <td>
+                                    <select name="supplier" id="supplier" class="form-control">
+                                        <?php foreach($supplier as $row) : ?>
+                                            <option value="<?php echo $row->id ?>"> <?php echo $row->nama_supplier?> </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
                             </tr>
 
                             <tr>

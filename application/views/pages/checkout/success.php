@@ -17,7 +17,7 @@
                     <p>Terima kasih sudah berbelanja.</p>
                     <p>Silahkan lakukan pembayaran untuk bisa kami proses selanjutnya dengan cara:</p>
                     <ol>
-                        <li>Lakukan pembayaran pada rekening <strong>BCA 123901249421</strong> a/n PT. CIShop</li>
+                        <li>Lakukan pembayaran pada rekening <strong>BCA 123901249421</strong> a/n PT. Wahana Inti Selaras</li>
                         <li>Sertakan keterangan dengan nomor order: <strong><?= $content->invoice ?></strong></li>
                         <li>Total pembayaran: <strong>Rp.<?= number_format($content->total, 0, ',', '.') ?>,-</strong></li>
                     </ol>

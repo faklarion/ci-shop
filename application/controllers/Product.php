@@ -27,7 +27,6 @@ class Product extends MY_Controller
                 ]
             )
             ->join('category')     // Query untuk mencari suatu data produk beserta kategorinya
-            ->paginate($page)
             ->get();
         $data['stok']    = $this->db->select('*')
             ->from('stok_product')

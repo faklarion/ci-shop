@@ -14,6 +14,7 @@ class Product_model extends MY_Model
             'title'         => '',
             'description'   => '',
             'price'         => '',
+            'modal'         => '',
             'image'         => ''
         ];
     }
@@ -42,8 +43,13 @@ class Product_model extends MY_Model
                 'rules' => 'trim|required'
             ],
             [
+                'field' => 'modal',
+                'label' => 'Harga Modal',
+                'rules' => 'trim|required'
+            ],
+            [
                 'field' => 'price',
-                'label' => 'Harga',
+                'label' => 'Harga Jual',
                 'rules' => 'trim|required|numeric'
             ],
         ];

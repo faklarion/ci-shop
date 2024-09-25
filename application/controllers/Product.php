@@ -22,7 +22,7 @@ class Product extends MY_Controller
         $data['title']      = 'Admin: Produk';
         $data['content']    = $this->product->select(
                 [
-                    'product.id', 'product.title AS product_title', 'product.image', 'product.price', 'product.is_available',
+                    'product.id', 'product.title AS product_title','product.modal', 'product.image', 'product.price', 'product.is_available',
                     'category.title AS category_title'
                 ]
             )

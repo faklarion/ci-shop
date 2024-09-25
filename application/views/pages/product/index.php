@@ -49,7 +49,8 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Produk</th>
                                         <th scope="col">Kategori</th>
-                                        <th scope="col">Harga</th>
+                                        <th scope="col">Modal</th>
+                                        <th scope="col">Harga Jual</th>
                                         <th scope="col">Stok</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -66,6 +67,7 @@
                                             <td>
                                                 <span class="badge badge-primary"><i class="fas fa-tags"></i> <?= $row->category_title ?></span>
                                             </td>
+                                            <td>Rp.<?= number_format($row->modal, 0, ',', '.') ?>,-</td>
                                             <td>Rp.<?= number_format($row->price, 0, ',', '.') ?>,-</td>
                                             <td><?= $row->is_available ?> 
                                                 <a href="<?= base_url("product/add_stok/$row->id") ?>" class="btn btn-sm">

@@ -19,7 +19,12 @@
                             <?= form_error('description') ?>
                         </div>
                         <div class="form-group">
-                            <label for="">Harga</label>
+                            <label for="">Harga Modal</label>
+                            <?= form_input(['type' => 'number', 'name' => 'modal', 'value' => $input->modal, 'class' => 'form-control', 'required' => true]) ?>
+                            <?= form_error('modal') ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Harga Jual</label>
                             <?= form_input(['type' => 'number', 'name' => 'price', 'value' => $input->price, 'class' => 'form-control', 'required' => true]) ?>
                             <?= form_error('price') ?>
                         </div>

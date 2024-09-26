@@ -54,6 +54,13 @@
                             <form action="<?= base_url("order/update/$order->id") ?>" method="POST">
                                 <div class="input-group">
                                     <input type="hidden" name="id" value="<?= $order->id ?>">
+                                    <input type="hidden" name="id_user" value="<?= $order->id_user ?>">
+                                    <input type="hidden" name="invoice" value="<?= $order->invoice ?>">
+                                    <input type="hidden" name="date" value="<?= $order->date ?>">
+                                    <input type="hidden" name="total" value="<?= $order->total ?>">
+                                    <input type="hidden" name="name" value="<?= $order->name ?>">
+                                    <input type="hidden" name="address" value="<?= $order->address ?>">
+                                    <input type="hidden" name="phone" value="<?= $order->phone ?>">
                                     <select name="status" id="" class="form-control">
                                         <option value="waiting" <?= $order->status == 'waiting' ? 'selected' : '' ?>>Menunggu Pembayaran</option>
                                         <option value="paid" <?= $order->status == 'paid' ? 'selected' : '' ?>>Sudah Dibayar</option>

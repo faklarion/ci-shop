@@ -34,6 +34,19 @@ class Order extends MY_Controller
         $this->view($data);
     }
 
+    public function history($page = null)
+    {
+
+        $query = $this->db->query("SELECT * FROM orders_history ORDER BY id DESC");
+
+        $data['title']      = 'Admin: Order History';
+        $data['content']    = $query->result(); 
+        
+        $data['page']       = 'pages/order/history';
+
+        $this->view($data);
+    }
+
     /**
      * Menampilkan detail dari order user yang masuk
      */
@@ -104,6 +117,18 @@ class Order extends MY_Controller
         }
 
         if ($this->order->where('id', $id)->update(['status' => $this->input->post('status')])) {
+            $data = array(
+                'id_user'       => $this->input->post('id_user'),
+                'date'          => $this->input->post('date'),
+                'invoice'       => $this->input->post('invoice'),
+                'total'         => $this->input->post('total'),
+                'name'          => $this->input->post('name'),
+                'address'       => $this->input->post('address'),
+                'phone'         => $this->input->post('phone'),
+                'status'        => $this->input->post('status'),
+                'date_update'   => date('Y-m-d H:i:s'),
+            );
+            $this->db->insert('orders_history', $data);
             $this->session->set_flashdata('success', 'Data berhasil diperbarui');
         } else {
             $this->session->set_flashdata('error', 'Oops! Terjadi kesalahan');

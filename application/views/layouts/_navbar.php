@@ -20,6 +20,7 @@
 							<a href="<?= base_url('supplier') ?>" class="dropdown-item">Supplier</a>
 							<a href="<?= base_url('product') ?>" class="dropdown-item">Produk/Barang</a>
 							<a href="<?= base_url('order') ?>" class="dropdown-item">Order</a>
+							<a href="<?= base_url('order/history') ?>" class="dropdown-item">Order History</a>
 							<a href="<?= base_url('user') ?>" class="dropdown-item">Pengguna</a>
 						</div>
 					</li>

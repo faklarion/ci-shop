@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Checkout extends MY_Controller
 {
@@ -9,7 +9,7 @@ class Checkout extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        
+
         $is_login = $this->session->userdata('is_login');
         $this->id = $this->session->userdata('id');
 
@@ -22,11 +22,15 @@ class Checkout extends MY_Controller
     public function index($input = null)
     {
         // Mengambil list cart yang akan dicheckout
-        $this->checkout->table  = 'cart';
+        $this->checkout->table = 'cart';
         $data['cart'] = $this->checkout->select([
-                'cart.id', 'cart.qty', 'cart.subtotal',
-                'product.title', 'product.image', 'product.price'
-            ])
+            'cart.id',
+            'cart.qty',
+            'cart.subtotal',
+            'product.title',
+            'product.image',
+            'product.price'
+        ])
             ->join('product')
             ->where('cart.id_user', $this->id)
             ->get();
@@ -37,9 +41,9 @@ class Checkout extends MY_Controller
         }
 
         // Jika input kosong (user belum input), maka isi form dari awal (form kosong)
-        $data['input']  = $input ? $input : (object) $this->checkout->getDefaultValues();
-        $data['title']  = 'Checkout';
-        $data['page']   = 'pages/checkout/index';
+        $data['input'] = $input ? $input : (object) $this->checkout->getDefaultValues();
+        $data['title'] = 'Checkout';
+        $data['page'] = 'pages/checkout/index';
 
         $this->view($data);
     }
@@ -69,20 +73,20 @@ class Checkout extends MY_Controller
 
         // Menyiapkan insert table orders
         $data = [
-            'id_user'   => $this->id,
-            'date'      => date('Y-m-d'),
-            'invoice'   => $this->id . date('YmdHis'),
-            'total'     => $total,
-            'name'      => $input->name,
-            'address'   => $input->address,
-            'phone'    => $input->phone,
-            'status'    => 'waiting'
+            'id_user' => $this->id,
+            'date' => date('Y-m-d'),
+            'invoice' => $this->id . date('YmdHis'),
+            'total' => $total,
+            'name' => $input->name,
+            'address' => $input->address,
+            'phone' => $input->phone,
+            'status' => 'waiting'
         ];
 
         // Jika insert berhasil, siapkan insert lagi ke dalam order_detail
-        if ($id_orders = $this->checkout->create($data)) { 
+        if ($id_orders = $this->checkout->create($data)) {
             // Ambil list cart yang telah dipesan user
-            $cart = $this->db->where('id_user', $this->id) 
+            $cart = $this->db->where('id_user', $this->id)
                 ->get('cart')
                 ->result_array();
 
@@ -95,28 +99,34 @@ class Checkout extends MY_Controller
 
             //pengurangan stok pada tabel produk
             foreach ($cart as $row) {
-                $idProduct  = $row['id_product'];
-                $Qty        = $row['qty'];
-                $product    = $this->db->where('id', $idProduct) 
-                ->get('product')
-                ->result_array();
+                $idProduct = $row['id_product'];
+                $Qty = $row['qty'];
+                $product = $this->db->where('id', $idProduct)
+                    ->get('product')
+                    ->result_array();
 
                 foreach ($product as $pro) {
-                $data2 = [
-                    'is_available'   => $pro['is_available'] - $Qty,
-                ];
-                $this->db->where('id', $idProduct);
-                $this->db->update('product', $data2);
+                    $data2 = [
+                        'is_available' => $pro['is_available'] - $Qty,
+                    ];
+                    $this->db->where('id', $idProduct);
+                    $this->db->update('product', $data2);
                 }
             }
 
-            $this->db->delete('cart', ['id_user' => $this->id]);    // Hapus cart user sekarang
+            // Update poin di tabel user
+            $this->db->set('point', 'point + 500', FALSE)
+                ->where('id', $this->id)
+                ->update('user');
+
+            // Hapus cart user sekarang
+            $this->db->delete('cart', ['id_user' => $this->id]);
 
             $this->session->set_flashdata('success', 'Data berhasil disimpan');
 
-            $data['title']      = 'Checkout Success';
-            $data['content']    = (object) $data;
-            $data['page']       = 'pages/checkout/success';
+            $data['title'] = 'Checkout Success';
+            $data['content'] = (object) $data;
+            $data['page'] = 'pages/checkout/success';
 
             $this->view($data);
         } else {
@@ -124,6 +134,7 @@ class Checkout extends MY_Controller
             return $this->index($input);    // Kembali ke index dengan kirim last input
         }
     }
+
 }
 
 /* End of file Checkout.php */

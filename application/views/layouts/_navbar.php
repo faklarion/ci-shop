@@ -10,7 +10,9 @@
 				<li class="nav-item active">
 					<a class="nav-link" href="<?= base_url() ?>">Home <span class="sr-only">(current)</span></a>
 				</li>
-
+				<?php if ($this->session->userdata("role") === 'member'): ?>
+					<a class="nav-link" href="<?= base_url() ?>home/dashboard">Dashboard Saya <span class="sr-only">(current)</span></a>
+				<?php endif ?>
 				<?php if ($this->session->userdata("role") === 'admin'): ?>
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" id="dropdown-1" , data-toggle="dropdown"
@@ -63,6 +65,32 @@
 				<?php else: ?>
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" id="dropdown-2" , data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bell"></i> </a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-2">
+							<?php 
+							// Ambil data notifikasi
+							$notifications = $this->db->select('*')
+													->from('orders')
+													->order_by('id', 'DESC')
+													->limit(5)
+													->where('id_user', $this->session->userdata('id'))
+													->get()
+													->result();
+							?>
+
+							<?php if (!empty($notifications)): ?>
+								<?php foreach ($notifications as $notif): ?>
+									<a href="<?= base_url("myorder/detail/$notif->invoice") ?>" class="dropdown-item">Pesanan Anda : <strong>#<?= $notif->invoice ?></strong> berstatus <?php $this->load->view('layouts/_status', ['status' => $notif->status]) ?></a>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<span class="dropdown-item text-muted">Tidak ada pesanan</span>
+							<?php endif; ?>
+							<div class="dropdown-divider"></div>
+							<a href="<?= base_url('myorder') ?>" class="dropdown-item text-center">Lihat semua pesanan</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" id="dropdown-2" , data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false"><?= $this->session->userdata("name") ?></a>
 						<div class="dropdown-menu" aria-labelledby="dropdown-2">
 							<a href="<?= base_url('profile') ?>" class="dropdown-item">Profile</a>
@@ -70,6 +98,8 @@
 							<a href="<?= base_url('logout') ?>" class="dropdown-item">Logout</a>
 						</div>
 					</li>
+					
+					
 				<?php endif ?>
 			</ul>
 		</div>
